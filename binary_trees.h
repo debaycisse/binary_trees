@@ -55,6 +55,9 @@ void binary_tree_postorder(const binary_tree_t *tree, void (*func)(int));
 /* 9-binary_tree_height.c */
 size_t binary_tree_height(const binary_tree_t *tree);
 
+/* 10-binary_tree_depth.c */
+size_t binary_tree_depth(const binary_tree_t *tree);
+
 /* binary_tree_print.c */
 void binary_tree_print(const binary_tree_t *tree);
 void print_tree(binary_tree_t *root);
