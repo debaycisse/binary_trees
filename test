@@ -1,0 +1,101 @@
+#include <stdlib.h>
+#include <stddef.h>
+#include <string.h>
+#include <stdio.h>
+
+/**
+ * struct binary_tree_s - Binary tree node
+ *
+ * @n: Integer stored in the node
+ * @parent: Pointer to the parent node
+ * @left: Pointer to the left child node
+ * @right: Pointer to the right child node
+ */
+struct binary_tree_s
+{
+    int n;
+    struct binary_tree_s *parent;
+    struct binary_tree_s *left;
+    struct binary_tree_s *right;
+};
+
+typedef struct binary_tree_s binary_tree_t;
+
+// task 0
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value)
+{
+    binary_tree_t *new_node = malloc(sizeof(binary_tree_t));
+
+    if (!new_node)
+        return (NULL);
+    new_node->n = value;
+    new_node->left = NULL;
+    new_node->right = NULL;
+    if (parent == NULL)
+    {
+        new_node->parent = NULL;
+        return (new_node);
+    }
+    new_node->parent = parent;
+    return (new_node);
+}
+
+// task 2
+binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value)
+{
+    binary_tree_t *new_node = malloc(sizeof(binary_tree_t));
+    binary_tree_t *temp = NULL;
+
+    if ((!new_node) || (!parent))
+        return (NULL);
+    new_node->n = value;
+    new_node->left = NULL;
+    new_node->right = NULL;
+    new_node->parent = parent;
+    if (parent->right)
+    {
+        temp = parent->right;
+        parent->right = new_node;
+        new_node->right = temp;
+        return (new_node);
+    }
+    parent->right = new_node;
+    return (new_node);
+}
+
+// task 12
+size_t binary_tree_leaves(const binary_tree_t *tree)
+{
+    size_t n = 0, m = 0;
+
+    if (!tree)
+        return (0);
+    n = binary_tree_leaves(tree->left);
+    m = binary_tree_leaves(tree->right);
+    if ((!tree->left) && (!tree->right))
+        return (n + m + 1);
+    return (0);
+}
+
+
+// main function
+int main(void)
+{
+    binary_tree_t *root;
+    size_t leaves;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    //binary_tree_print(root);
+
+    leaves = binary_tree_leaves(root);
+    printf("Leaves in %d: %lu\n", root->n, leaves);
+    leaves = binary_tree_leaves(root->right);
+    printf("Leaves in %d: %lu\n", root->right->n, leaves);
+    leaves = binary_tree_leaves(root->left->right);
+    printf("Leaves in %d: %lu\n", root->left->right->n, leaves);
+    return (0);
+}
